@@ -1,9 +1,14 @@
----
-- name: create service for deployment
-  hosts: kubernetes
-  # become: true
-  user: ubuntu
-
-  tasks:
-  - name: create a service
-    command: kubectl expose deployment abctech-project --type=LoadBalancer --name=my-service
+apiVersion: v1
+kind: Service
+metadata:
+  name: abctech-service
+  labels:
+    app: abctech-project
+spec:
+  selector:
+    app: abctech-project
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 31200
